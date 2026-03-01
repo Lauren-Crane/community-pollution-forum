@@ -29,7 +29,10 @@
             </div>
             
             <button class="btn btn-outline-secondary w-100 mb-3" onclick="shareLocation()"><i class="bi bi-geo-alt"></i> Share My Location</button>
-
+            <div id="airnow-container" class="card p-3 mt-3" style="display:none;">
+                 <h5>Current Air Quality</h5>
+                  <div id="airnow-data"></div>
+            </div>
             <!-- Area Summary -->
             <div id="area-summary" class="mb-3 p-3 bg-white border rounded shadow-sm" style="display:none;">
                 <h5 class="text-danger border-bottom pb-2"><i class="bi bi-exclamation-triangle-fill"></i> Area Health Hazards</h5>
@@ -40,7 +43,7 @@
                     <a href="/contact" class="btn btn-sm btn-warning w-100 fw-bold"><i class="bi bi- megaphone-fill"></i> Contact Local Govt. & Organize</a>
                 </div>
             </div>
-
+            
             <div id="details-section" class="p-3 bg-white border rounded shadow-sm" style="display:none;">
                 <h5 id="poi-name" class="text-primary mb-1"></h5>
                 <p class="small text-muted mb-2"><strong>Facility Type:</strong> <span id="poi-type"></span></p>
@@ -71,7 +74,7 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    }).addTo(map); 
 
     var markers = [];
 
@@ -85,40 +88,35 @@
     function loadPollutionData(lat, lon) {
         // Fetch weather data from Open-Meteo as a free proxy for "live weather updates"
         // (Air Quality is harder to get free without a key, but we will mock it based on weather/points)
-        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
-            .then(res => res.json())
-            .then(weatherData => {
-                let weatherHtml = '';
-                if(weatherData && weatherData.current_weather) {
-                    weatherHtml = `
-                    <div class="alert alert-info py-2 my-3">
-                        <strong class="small"><i class="bi bi-cloud-sun mb-1"></i> Live Weather Context:</strong><br>
-                        <span class="small">Temp: ${weatherData.current_weather.temperature}°C | Wind Speed: ${weatherData.current_weather.windspeed} km/h</span><br>
-                        <span class="small text-muted">High winds can spread PM2.5 and wildfire smoke over larger areas.</span>
-                    </div>`;
-                    
-                    // Insert weather context before the alerts if it isn't already there
-                    let summaryDiv = document.getElementById('area-summary');
-                    let existingWeather = document.getElementById('weather-context');
-                    if(existingWeather) existingWeather.remove();
-                    
-                    let wDiv = document.createElement('div');
-                    wDiv.id = 'weather-context';
-                    wDiv.innerHTML = weatherHtml;
-                    summaryDiv.insertBefore(wDiv, summaryDiv.firstChild);
-                }
-            })
-            .catch(e => console.log("Weather error", e));
+        
 
         fetch(`/api/pollution-data?lat=${lat}&lon=${lon}`)
             .then(response => response.json())
             .then(data => {
+                console.log("AirNow data:", data.airnow);
+                // ---- Display AirNow AQI ----
+                if (data.airnow && Array.isArray(data.airnow) && data.airnow.length > 0) {
+                    const observation = data.airnow[0];
+                    
+                    document.getElementById('airnow-data').innerHTML = `
+                    <strong>Reporting Area:</strong> ${observation.ReportingArea}<br>
+                    <strong>Parameter:</strong> ${observation.ParameterName}<br>
+                    <strong>AQI:</strong> ${observation.AQI}<br>
+                    <strong>Category:</strong> ${observation.Category.Name}
+                    `;
+
+                    document.getElementById('airnow-container').style.display = 'block';
+                } else {
+                    document.getElementById('airnow-container').style.display = 'none';
+                }
+
+
+
                 clearMarkers();
-                
                 // Aggregate area hazards
                 let areaHazards = new Set();
                 
-                data.forEach(source => {
+                data.sources.forEach(source => {
                     // Decide marker color based on type
                     let markerColor = 'blue';
                     if(source.type.includes("Fire")) markerColor = 'red';

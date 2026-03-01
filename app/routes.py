@@ -1,9 +1,14 @@
 from flask import Blueprint, render_template, request, jsonify
 
 import requests
+from dotenv import load_dotenv
 import os
+load_dotenv()
 
-AIR_API_KEY = os.getenv("AIR_API_KEY")
+
+print(os.getenv("AIR_API_KEY"))
+
+air_api_key = os.getenv("AIR_API_KEY")
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -70,11 +75,12 @@ def pollution_data():
         "latitude": lat,
         "longitude": lon,
         "distance": 25,
-        "API_KEY": AIR_API_KEY
+        "API_KEY": air_api_key
     }
-    response = requests.get(url, params=params)
-
-
+    print("API KEY:", air_api_key)
+    response = requests.get(url, params=params).json()
+    
+    
 
 
 
@@ -131,4 +137,7 @@ def pollution_data():
             "mitigation": "Use water filtration systems for drinking water, advocate for organic farming practices, avoid swimming in local unregulated bodies of water."
         }
     ]
-    return jsonify(sources)
+    return  jsonify({
+        "airnow": response,
+        "sources": sources
+    })
