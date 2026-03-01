@@ -65,10 +65,6 @@ def pollution_data():
     lat = float(request.args.get('lat', 0))
     lon = float(request.args.get('lon', 0))
     
-<<<<<<< Updated upstream
-    # Generate some mock localized sources around the given coordinates 
-    # including fires and specific traffic events now.
-=======
     url = "https://www.airnowapi.org/aq/observation/latLong/"
     
     params = {
@@ -87,7 +83,6 @@ def pollution_data():
 
 
     # Generate some mock localized sources around the given coordinates
->>>>>>> Stashed changes
     sources = [
         {
             "id": 1,
