@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from .models import ForumCategory, Post, Event
-from . import db
+
 import requests
 import os
 
@@ -65,8 +64,7 @@ def pollution_data():
     lat = float(request.args.get('lat', 0))
     lon = float(request.args.get('lon', 0))
     
-    url = "https://www.airnowapi.org/aq/observation/latLong/"
-    
+    url = "https://www.airnowapi.org/aq/observation/latLong/current"
     params = {
         "format": "application/json",
         "latitude": lat,
@@ -74,8 +72,6 @@ def pollution_data():
         "distance": 25,
         "API_KEY": AIR_API_KEY
     }
-
-
     response = requests.get(url, params=params)
 
 
