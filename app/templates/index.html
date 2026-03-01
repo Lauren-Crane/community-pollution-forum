@@ -1,36 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold text-success">Community Pollution Forum</h1>
+<div class="hero-section text-center mb-5">
+    <h1 class="display-4 text-white mb-3">Community Pollution Forum</h1>
     <div class="col-lg-8 mx-auto">
-      <p class="lead mb-4">Empowering neighborhoods to identify environmental hazards, understand health risks, and organize grassroots mitigation. Track localized sources like factories and data centers on our map, connect with your community, and petition your local government for a cleaner future.</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a href="/map" class="btn btn-success btn-lg px-4 gap-3">📍 Open Pollution Map</a>
-        <a href="/forum" class="btn btn-outline-secondary btn-lg px-4">💬 Join Discussions</a>
+      <p class="lead mb-5 pb-2">Empowering neighborhoods to identify environmental hazards, understand health risks, and organize grassroots mitigation. Track localized sources on our map, connect with your community, and petition your local government for a cleaner future.</p>
+      <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+        <a href="/map" class="btn btn-light btn-lg px-4 gap-3 text-primary"><i class="bi bi-geo-alt-fill text-danger me-2"></i> Open Tracker Map</a>
+        <a href="/forum" class="btn btn-outline-light btn-lg px-4"><i class="bi bi-chat-left-text me-2"></i> Join Discussions</a>
       </div>
     </div>
 </div>
 
-<div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-    <div class="col d-flex align-items-start">
-      <div>
-        <h3 class="fs-2 text-primary">Track Pollution</h3>
-        <p>Type in your location or share your device's GPS to instantly discover prominent pollutant types nearby, learning how factories or excessive traffic impact air and water quality.</p>
-        <a href="/map" class="btn btn-primary">Find Pollutants</a>
+<div class="row g-4 py-4 row-cols-1 row-cols-lg-3">
+    <div class="col">
+      <div class="feature-box box-primary d-flex flex-column align-items-center text-center">
+        <div class="feature-icon text-primary">
+            <i class="bi bi-pin-map-fill"></i>
+        </div>
+        <h3 class="fs-4 fw-bold text-dark mb-3">Track Local Pollution</h3>
+        <p class="text-muted mb-4">Type in your location or share your device's GPS to instantly discover prominent pollutant types nearby, learning how factories or excessive traffic impact air and water quality.</p>
+        <a href="/map" class="btn btn-primary mt-auto rounded-pill px-4">Find Pollutants</a>
       </div>
     </div>
-    <div class="col d-flex align-items-start">
-      <div>
-        <h3 class="fs-2 text-warning">Health Hazards</h3>
-        <p>Understand exactly what PM2.5, NO2, or e-waste mean for your respiratory system and long-term health, accompanied by actionable mitigation steps to protect yourself.</p>
-        <a href="/map" class="btn btn-warning">Learn More</a>
+    
+    <div class="col">
+      <div class="feature-box box-warning d-flex flex-column align-items-center text-center">
+        <div class="feature-icon" style="color: #f3969a;">
+            <i class="bi bi-lungs-fill"></i>
+        </div>
+        <h3 class="fs-4 fw-bold text-dark mb-3">Health Hazards</h3>
+        <p class="text-muted mb-4">Understand exactly what PM2.5, NO2, or e-waste mean for your respiratory system and long-term health, accompanied by actionable mitigation steps to protect yourself.</p>
+        <a href="/map" class="btn mt-auto rounded-pill px-4 text-white" style="background-color: #f3969a; border: none;">Learn More</a>
       </div>
     </div>
-    <div class="col d-flex align-items-start">
-      <div>
-        <h3 class="fs-2 text-danger">Organize & Act</h3>
-        <p>A healthier environment is a collective effort. Connect on our open forum, RSVP to local tree-planting and cleanup events, and effectively contact state representatives.</p>
-        <a href="/events" class="btn btn-danger">Take Action</a>
+    
+    <div class="col">
+      <div class="feature-box box-danger d-flex flex-column align-items-center text-center">
+        <div class="feature-icon" style="color: #ff7851;">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <h3 class="fs-4 fw-bold text-dark mb-3">Organize & Act</h3>
+        <p class="text-muted mb-4">A healthier environment is a collective effort. Connect on our open forum, RSVP to local tree-planting events, and effectively contact state representatives to demand change.</p>
+        <a href="/events" class="btn mt-auto rounded-pill px-4 text-white" style="background-color: #ff7851; border: none;">Take Action</a>
       </div>
     </div>
 </div>
