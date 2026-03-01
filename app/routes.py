@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, request, jsonify
 from .models import ForumCategory, Post, Event
 from . import db
+import requests
+import os
 
+AIR_API_KEY = os.getenv("AIR_API_KEY")
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -31,7 +34,7 @@ def events_index():
 def contact():
     return render_template('contact.html')
 
-import requests
+
 import random
 
 @main.route('/api/geocode', methods=['GET'])
@@ -62,8 +65,29 @@ def pollution_data():
     lat = float(request.args.get('lat', 0))
     lon = float(request.args.get('lon', 0))
     
+<<<<<<< Updated upstream
     # Generate some mock localized sources around the given coordinates 
     # including fires and specific traffic events now.
+=======
+    url = "https://www.airnowapi.org/aq/observation/latLong/"
+    
+    params = {
+        "format": "application/json",
+        "latitude": lat,
+        "longitude": lon,
+        "distance": 25,
+        "API_KEY": AIR_API_KEY
+    }
+
+
+    response = requests.get(url, params=params)
+
+
+
+
+
+    # Generate some mock localized sources around the given coordinates
+>>>>>>> Stashed changes
     sources = [
         {
             "id": 1,

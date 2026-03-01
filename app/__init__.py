@@ -1,5 +1,10 @@
 from flask import Flask
+import requests
+import os
+
 from flask_sqlalchemy import SQLAlchemy
+
+
 
 db = SQLAlchemy()
 #lalalala
