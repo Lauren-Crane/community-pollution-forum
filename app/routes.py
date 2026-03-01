@@ -1,4 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
+from .models import ForumCategory, Post, Event
+from . import db
+
 
 import requests
 from dotenv import load_dotenv
@@ -6,7 +9,6 @@ import os
 load_dotenv()
 
 
-print(os.getenv("AIR_API_KEY"))
 
 air_api_key = os.getenv("AIR_API_KEY")
 main = Blueprint('main', __name__)
