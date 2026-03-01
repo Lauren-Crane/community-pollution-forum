@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+    #map {
+        height: 600px;
+        width: 100%;
+        border-radius: 8px;
+    }
+    .info-panel {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        height: 600px;
+        overflow-y: auto;
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="info-panel">
+            <h4>Local Pollution Tracker</h4>
+            <p>Enter a location or use your current location to view local pollution sources and mitigation strategies.</p>
+            
+            <div class="input-group mb-3">
+                <input type="text" id="location-input" class="form-control" placeholder="Enter city or zip code...">
+                <button class="btn btn-primary" type="button" onclick="searchLocation()">Search</button>
+            </div>
+            
+            <button class="btn btn-outline-secondary w-100 mb-4" onclick="shareLocation()">📍 Share My Location</button>
+
+            <div id="details-section" style="display:none;">
+                <h5 id="poi-name" class="text-primary"></h5>
+                <p><strong>Type:</strong> <span id="poi-type"></span></p>
+                <div class="alert alert-warning">
+                    <strong>Primary Pollutant:</strong> <br>
+                    <span id="poi-pollutant"></span>
+                </div>
+                <h5>Health Hazards</h5>
+                <p id="poi-hazards"></p>
+                <h5>Ways to Mitigate</h5>
+                <p id="poi-mitigation"></p>
+            </div>
+            <div id="default-message">
+                <p class="text-muted">Click on a marker on the map to see specific details about localized pollution sources, their health impacts, and ways to mitigate them.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([39.8283, -98.5795], 4); // Default to US center
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var markers = [];
+
+    function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            map.removeLayer(markers[i]);
+        }
+        markers = [];
+    }
+
+    function loadPollutionData(lat, lon) {
+        fetch(`/api/pollution-data?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+                clearMarkers();
+                data.forEach(source => {
+                    var marker = L.marker([source.lat, source.lng]).addTo(map);
+                    marker.bindPopup(`<b>${source.name}</b><br>${source.type}`);
+                    marker.on('click', function() {
+                        document.getElementById('default-message').style.display = 'none';
+                        document.getElementById('details-section').style.display = 'block';
+                        document.getElementById('poi-name').innerText = source.name;
+                        document.getElementById('poi-type').innerText = source.type;
+                        document.getElementById('poi-pollutant').innerText = source.pollutant;
+                        document.getElementById('poi-hazards').innerText = source.hazards;
+                        document.getElementById('poi-mitigation').innerText = source.mitigation;
+                    });
+                    markers.push(marker);
+                });
+            })
+            .catch(error => console.error('Error fetching pollution data:', error));
+    }
+
+    function searchLocation() {
+        var query = document.getElementById('location-input').value;
+        if (!query) return;
+        
+        fetch(`/api/geocode?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.lat && data.lon) {
+                    var lat = parseFloat(data.lat);
+                    var lon = parseFloat(data.lon);
+                    map.setView([lat, lon], 12);
+                    loadPollutionData(lat, lon);
+                } else {
+                    alert("Location not found.");
+                }
+            })
+            .catch(error => {
+                console.error("Geocoding failed:", error);
+                alert("Geocoding failed.");
+            });
+    }
+
+    function shareLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                map.setView([lat, lon], 12);
+                loadPollutionData(lat, lon);
+            }, function() {
+                alert("Geolocation is not supported by this browser or permission denied.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+</script>
+{% endblock %}

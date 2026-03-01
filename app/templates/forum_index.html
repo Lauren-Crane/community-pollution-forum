@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Community Forum</h2>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newPostModal">+ New Topic</button>
+        </div>
+        <p class="text-muted">Connect with others in your community, coordinate local outreach, and share vital environmental information.</p>
+        
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Recent Discussions</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% if categories %}
+                    {% for cat in categories %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start p-3">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="#">{{ cat.name }}</a></div>
+                            {{ cat.description }}
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">0</span>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <!-- MOCK DISCUSSIONS IF DB IS EMPTY -->
+                    <li class="list-group-item d-flex justify-content-between align-items-start p-3">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="#">Organizing River Cleanup this Saturday</a></div>
+                            <span class="text-muted">Let's group up and clean the East River Bank...</span>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">14 replies</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start p-3">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="#">Petitions for Stricter Factory Emissions</a></div>
+                            <span class="text-muted">I have drafted a letter to the local rep about the industrial park...</span>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">32 replies</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start p-3">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="#">How to build an active air quality monitor?</a></div>
+                            <span class="text-muted">Looking for a DIY guide to setup my own PM2.5 sensor.</span>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">8 replies</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPostModalLabel">Start a New Discussion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" placeholder="Discussion title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select">
+                    <option>General Outreach</option>
+                    <option>Events & Planning</option>
+                    <option>Local Government</option>
+                    <option>Actionable Mitigation</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea class="form-control" rows="4" placeholder="What's on your mind?"></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="alert('Post submitted successfully!')">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

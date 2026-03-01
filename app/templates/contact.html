@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-5">
+        <h2>Contact Your Representatives</h2>
+        <p class="text-muted">A vital step in mitigating environmental hazards is making your voice heard. Use the directory below or send a message directly to petition your local and state governments for stricter pollution controls, renewable energy funding, and better zoning laws.</p>
+        
+        <div class="card bg-light mb-4 shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title text-primary"><i class="bi bi-person-lines-fill"></i> Local Government Resources</h5>
+                <ul class="list-unstyled mb-0 mt-3">
+                    <li class="mb-2"><strong>City Environmental Protection:</strong> 1-800-555-0199</li>
+                    <li class="mb-2"><strong>State EPA Office:</strong> contact@state-epa-gov.example</li>
+                    <li class="mb-2"><strong>County Zoning Board:</strong> zoning@county-gov.example</li>
+                    <li><strong>Emergency Spills (24/7):</strong> 911</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card border-warning mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title text-warning">Tips for Effective Petitions</h5>
+                <ul>
+                    <li>Be specific about the localized source (e.g. identify the factory or data center on the Tracker map).</li>
+                    <li>Highlight the immediate health hazards impacting the community (e.g. PM2.5 causing asthma).</li>
+                    <li>Suggest actionable mitigation strategies.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Send a Letter</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Recipient</label>
+                        <select class="form-select">
+                            <option>Mayor's Office</option>
+                            <option>City Council</option>
+                            <option>State Department of Environmental Protection</option>
+                            <option>Federal EPA Regional Office</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Your Details</label>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Full Name">
+                            </div>
+                            <div class="col">
+                                <input type="email" class="form-control" placeholder="Email Address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-control" placeholder="E.g., Concerns Regarding the New Local Data Center's Energy Grid Requirements">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="8" placeholder="Start typing your letter here..."></textarea>
+                    </div>
+                    <button type="button" class="btn btn-dark w-100" onclick="alert('Message passed to the designated representative successfully!')">Submit Petition</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

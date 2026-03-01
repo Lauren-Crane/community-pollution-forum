@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-success">Community Pollution Forum</h1>
+    <div class="col-lg-8 mx-auto">
+      <p class="lead mb-4">Empowering neighborhoods to identify environmental hazards, understand health risks, and organize grassroots mitigation. Track localized sources like factories and data centers on our map, connect with your community, and petition your local government for a cleaner future.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/map" class="btn btn-success btn-lg px-4 gap-3">📍 Open Pollution Map</a>
+        <a href="/forum" class="btn btn-outline-secondary btn-lg px-4">💬 Join Discussions</a>
+      </div>
+    </div>
+</div>
+
+<div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="col d-flex align-items-start">
+      <div>
+        <h3 class="fs-2 text-primary">Track Pollution</h3>
+        <p>Type in your location or share your device's GPS to instantly discover prominent pollutant types nearby, learning how factories or excessive traffic impact air and water quality.</p>
+        <a href="/map" class="btn btn-primary">Find Pollutants</a>
+      </div>
+    </div>
+    <div class="col d-flex align-items-start">
+      <div>
+        <h3 class="fs-2 text-warning">Health Hazards</h3>
+        <p>Understand exactly what PM2.5, NO2, or e-waste mean for your respiratory system and long-term health, accompanied by actionable mitigation steps to protect yourself.</p>
+        <a href="/map" class="btn btn-warning">Learn More</a>
+      </div>
+    </div>
+    <div class="col d-flex align-items-start">
+      <div>
+        <h3 class="fs-2 text-danger">Organize & Act</h3>
+        <p>A healthier environment is a collective effort. Connect on our open forum, RSVP to local tree-planting and cleanup events, and effectively contact state representatives.</p>
+        <a href="/events" class="btn btn-danger">Take Action</a>
+      </div>
+    </div>
+</div>
+{% endblock %}
